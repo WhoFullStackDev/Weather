@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Open Sans", sans-serif;
+}
+
+.container {
+  background-image: linear-gradient(to bottom, red, blue);
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+  border-radius: 20px;
+}
+
+#top-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+#top-form input {
+  background-color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 30px;
+}
+
+.searchImg {
+  background-color: white;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: none;
+}
+
+#top-form img {
+  width: 25px;
+  cursor: pointer;
+}
+
+.mid-weatherStatus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+}
+
+.temp {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.bottom-weatherStatus {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  gap: 20px;
+}
+
+.left-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.left-section img {
+  width: 30px;
+}
+
+.left-section p {
+  font-size: 20px;
+}
+
+.right-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.right-section img {
+  width: 30px;
+}
+
+.right-section p {
+  font-size: 20px;
+}

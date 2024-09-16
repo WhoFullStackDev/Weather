@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <form action="" id="top-form">
+        <input type="text" id="search" name="search" placeholder="search" />
+        <button class="searchImg" type="submit">
+          <img src="/images/search.png" alt="search" />
+        </button>
+      </form>
+
+      <div class="mid-weatherStatus">
+        <img src="/images/clear.png" alt="clear" id="weatherIcon" />
+        <div class="temp">
+          <h1 id="tempNum">mm</h1>
+          <sup>o</sup>
+          <h1>C</h1>
+        </div>
+        <h1 id="place"></h1>
+      </div>
+
+      <div class="bottom-weatherStatus">
+        <div class="left-section">
+          <img src="/images/humidity.png" alt="humidity" />
+          <div>
+            <p><span id="humidityNum"></span>%</p>
+            <p>humidity</p>
+          </div>
+        </div>
+        <div class="right-section">
+          <img src="/images/wind.png" alt="wind" />
+          <div>
+            <p><span id="windNum"></span> km/h</p>
+            <p>wind speed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="/script.js"></script>
+</html>
