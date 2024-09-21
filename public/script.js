@@ -12,50 +12,52 @@ form.addEventListener("submit", async (e) => {
   const searchValue = formData.get("search");
   const geoUrl = `https://api.opencagedata.com/geocode/v1/json?q=${searchValue}&key=d0f404b2246a4c3abd78c77712ffaafb`;
 
-  const response = await fetch(geoUrl, { method: "GET" });
+  try {
+    const response = await fetch(geoUrl, { method: "GET" });
 
-  if (!response.ok) {
-    throw new Error("Something went wrong");
-  }
+    if (!response.ok) {
+      throw new Error("Something went wrong");
+    }
 
-  const data = await response.json();
-  const locationPoint = data.results[0]?.geometry;
-  if (locationPoint) {
-    lat = locationPoint.lat;
-    lng = locationPoint.lng;
-    getWeather(lat, lng);
-  } else {
-    console.error("Location data not found");
+    const data = await response.json();
+    const locationPoint = data.results[0]?.geometry;
+    if (locationPoint) {
+      const lat = locationPoint.lat;
+      const lng = locationPoint.lng;
+      getWeather(lat, lng);
+    } else {
+      console.error("Location data not found");
+    }
+    form.reset();
+  } catch (error) {
+    console.error("Error fetching geolocation:", error);
   }
-  form.reset();
 });
 
 const getLocation = async () => {
   try {
-    let lat;
-    let lng;
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          lat = position.coords.latitude;
-          lng = position.coords.longitude;
-          getWeather(lat, lng);
-        },
-        (error) => {
-          console.error(
-            "Error occurred while retrieving location:",
-            error.message
-          );
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0,
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        console.log("Mobile Location:", lat, lng);
+        await getWeather(lat, lng);
+      },
+      (error) => {
+        // If permission denied or error occurred, log error message
+        if (error.code === error.PERMISSION_DENIED) {
+          console.error("Location permission denied");
+        } else {
+          console.error("Error retrieving location:", error.message);
         }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
+        alert("Please enable location services and try again.");
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000, // Increased timeout
+        maximumAge: 0,
+      }
+    );
   } catch (error) {
     console.error("Failed to fetch location:", error.message);
   }
@@ -67,28 +69,40 @@ const getWeather = async (lat, lng) => {
       method: "GET",
     });
     if (!response.ok) {
-      throw new Error(response.message);
+      throw new Error(response.statusText); // More specific error
     }
     const result = await response.json();
     tempNum.innerHTML = Math.round(result.main.temp - 273);
     place.innerHTML = result.name;
     humidityNum.innerHTML = result.main.humidity;
     windNum.innerHTML = result.wind.speed;
-    if (result.weather[0].main === "Clouds") {
-      weatherIcon.src = "images/clouds.png";
-    } else if (result.weather[0].main === "Rain") {
-      weatherIcon.src = "images/rain.png";
-    } else if (result.weather[0].main === "Haze") {
-      weatherIcon.src = "images/mist.png";
-    } else if (result.weather[0].main === "Snow") {
-      weatherIcon.src = "images/snow.png";
-    } else if (result.weather[0].main === "Clear") {
-      weatherIcon.src = "images/clear.png";
+
+    // Set weather icon based on condition
+    switch (result.weather[0].main) {
+      case "Clouds":
+        weatherIcon.src = "images/clouds.png";
+        break;
+      case "Rain":
+        weatherIcon.src = "images/rain.png";
+        break;
+      case "Haze":
+        weatherIcon.src = "images/mist.png";
+        break;
+      case "Snow":
+        weatherIcon.src = "images/snow.png";
+        break;
+      case "Clear":
+        weatherIcon.src = "images/clear.png";
+        break;
+      default:
+        weatherIcon.src = "images/default.png";
     }
+
     console.log(result);
   } catch (error) {
-    throw new Error(error);
+    console.error("Error fetching weather:", error.message);
   }
 };
 
+// Trigger location request at load
 getLocation();
